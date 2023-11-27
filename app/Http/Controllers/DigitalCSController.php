@@ -24,18 +24,55 @@ class DigitalCSController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi input jika diperlukan
-        $request->validate([
-            'branch_code' => 'required',
-            // ...Tambahkan validasi untuk kolom lain jika perlu...
+        $validatedData = $request->validate([
+            'branchcode' => 'required',
+            'branchname' => 'required',
+            'problem' => 'required',
+            'date_found' => 'required',
+            'sla_target' => 'required',
+            'issue' => 'required',
+            'analysis' => 'required',
+            'status' => 'required',
+            'note' => 'required',
         ]);
 
-        // Simpan data ke database
-        digital_cs::create($request->all());
+        digital_cs::create($validatedData);
 
-        // Redirect ke halaman yang sesuai
-        return redirect()->route('digital-cs.index');
+    return redirect()->route('digital-cs.index')->with('success', 'Data berhasil ditambahkan');
     }
-    
-    
+
+    public function edit($id)
+    {
+        $digitalCs = digital_cs::findOrFail($id);
+        return view('digital_cs.edit', compact('digitalCs'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'branchcode' => 'required',
+            'branchname' => 'required',
+            'problem' => 'required',
+            'date_found' => 'required',
+            'sla_target' => 'required',
+            'issue' => 'required',
+            'analysis' => 'required',
+            'status' => 'required',
+            'note' => 'required',
+        ]);
+
+        digital_cs ::whereId($id)->update($validatedData);
+
+        return redirect()->route('digital-cs.index')->with('success', 'Data berhasil diperbarui');
+
+    }
+
+    public function destroy($id)
+    {
+        $digitalCs = digital_cs::findOrFail($id);
+        $digitalCs->delete();
+
+        return redirect()->route('digital-cs.index')->with('success', 'Data berhasil dihapus');
+
+    }    
 }

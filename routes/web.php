@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DigitalCSController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BranchController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('login');
-});
+})->name('login-custom'); 
 
 Route::get('/dashboard', function () {
     return view('index');
@@ -30,13 +32,19 @@ Route::middleware('auth')->group(function () {
 });
 
 
+Route::get('/getBranchName', [BranchController::class, 'getBranchName']);
+Route::get('/getBranchCodes', [BranchController::class, 'getBranchCodes']);
+
+
 Route::prefix('/digital-cs')->group(function () {
     Route::get('/', [DigitalCSController::class, 'index'])->name('digital-cs.index');
     Route::get('/create', [DigitalCSController::class, 'create'])->name('digital-cs.create');
-
-
-    // Tambahkan rute lainnya di sini jika diperlukan
+    Route::post('/store', [DigitalCSController::class, 'store'])->name('digital-cs.store');
+    Route::get('/edit/{id}', [DigitalCSController::class, 'edit'])->name('digital-cs.edit');
+    Route::post('/update/{id}', [DigitalCSController::class, 'update'])->name('digital-cs.update');
+    Route::get('/delete/{id}', [DigitalCSController::class, 'destroy'])->name('digital-cs.destroy');
 });
+
 
 
 

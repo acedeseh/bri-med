@@ -97,14 +97,11 @@
                   </div>
                 </div>
             </div>
-
         </div>
       </div>
         <!--  Row 1 -->
          
-
-
-            {{-- RECENT PROBLEM --}}
+    {{-- RECENT PROBLEM --}}
     <div class="row">
           <div class="col-lg d-flex align-items-stretch">
             <div class="card w-100">
@@ -133,7 +130,7 @@
                           <h6 class="fw-semibold mb-0">Date Found</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Date Process</h6>
+                          <h6 class="fw-semibold mb-0">SLA Target</h6>
                         </th>
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Date Done</h6>
@@ -153,22 +150,32 @@
                         <th class="border-bottom-0">
                           <h6 class="fw-semibold mb-0">Desc</h6>
                         </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Action</h6>
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       @foreach($digitalCSProblem as $digitalCSall)
                       <tr>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchdesc }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchname }}</td>
                         <td class="border-bottom-0 fw-bold mb-1">{{ $digitalCSall->problem }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->date_found }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->date_process }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->date_done }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_found)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->sla_target)) }}</td>
+                        <td></td>
+                      <!-- <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_done)) }}</td> -->
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->SLA }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->issue }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->analysis }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1 badge bg-danger rounded-3">{{ $digitalCSall->status }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->status }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->note }}</td>
+                        <th class="border-bottom-0">
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-warning" onclick="editAction()">Update</button>
+                            <button type="button" class="btn btn-danger" onclick="deleteAction()">Delete</button>
+                          </div>
+                        </th>
                       </tr>     
                       @endforeach                  
                     </tbody>
@@ -192,6 +199,8 @@
   <script src="../template/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../template/libs/simplebar/dist/simplebar.js"></script>
   <script src="../template/js/dashboard.js"></script>
+
+
 </body>
 
 </html>
