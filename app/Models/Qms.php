@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class digital_cs extends Model
+class Qms extends Model
 {
     use HasFactory;
-
+    protected $table = 'qms';
     protected $fillable = [
         'branchcode',
         'branchname',
@@ -22,3 +22,4 @@ class digital_cs extends Model
         'note',
     ];
 }
+

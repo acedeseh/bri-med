@@ -66,32 +66,32 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title fw-semibold mb-4">Edit Digital CS Problem</h5>
+                        <h5 class="card-title fw-semibold mb-4">Edit RCM Problem</h5>
                         <div class="card">
                             <div class="card-body">
-                                <form id="updateDigitalCS" method="post" action="{{ route('digital-cs.update', $digitalCs->id) }}">
+                                <form id="updateSspp" method="post" action="{{ route('rcm.update', $rcm->id) }}">
                                     @csrf
                                     @method('PATCH')
                                     <div class="mb-3">
                                         <label for="branchCode" class="form-label" readonly>Branch Code</label>
-                                        <input class="form-select" value="{{ $digitalCs->branchcode }}" id="branchCode" name="branchcode" readonly>
+                                        <input class="form-select" value="{{ $rcm->branchcode }}" id="branchCode" name="branchcode" readonly>
                                         <div id="branchCodeError" class="text-danger"></div>
                                     </div>
                                     <div class="mb-3">
                                         <label for="branchName" class="form-label" readonly>Branch Name</label>
-                                        <input type="text" value="{{ $digitalCs->branchname }}" class="form-control" id="branchName" name="branchname" readonly>
+                                        <input type="text" value="{{ $rcm->branchname }}" class="form-control" id="branchName" name="branchname" readonly>
                                     </div>
                                     <div class="mb-3">
                                       <label for="exampleInputEmail1" class="form-label" readonly>Problem</label>
-                                      <input type="text" value="{{ $digitalCs->problem }}" class="form-control" name="problem">
+                                      <input type="text" value="{{ $rcm->problem }}" class="form-control" name="problem">
                                   </div>
                                   <div class="mb-3">
                                       <label for="dateFound" class="form-label" readonly >Date Found</label>
-                                      <input type="text" value="{{ $digitalCs->date_found }}" class="form-control" id="dateFound" name="date_found">
+                                      <input type="text" value="{{ $rcm->date_found }}" class="form-control" id="dateFound" name="date_found">
                                   </div>
                                   <div class="mb-3">
                                       <label for="slaTarget" class="form-label" readonly >SLA Target</label>
-                                      <input type="text" class="form-control" value="{{ $digitalCs->sla_target }}" id="slaTarget" name="sla_target" readonly>
+                                      <input type="text" class="form-control" value="{{ $rcm->sla_target }}" id="slaTarget" name="sla_target" readonly>
                                   </div>
                                   <div class="mb-3">
                                       <label for="issue" class="form-label">Issue</label>
@@ -104,30 +104,30 @@
                                   </div>
                                   <div class="mb-3">
                                       <label for="exampleInputEmail1" class="form-label">Analysis</label>
-                                      <input type="text" value="{{ $digitalCs->analysis }}" class="form-control" name="analysis">
+                                      <input type="text" value="{{ $rcm->analysis }}" class="form-control" name="analysis">
                                   </div>
                                   
                                   <div class="mb-3">
                                     <label for="status" class="form-label">Status</label>
                                     <div class="btn-group" role="group" aria-label="Status">
                                         <input type="radio" class="btn-check" name="status" id="statusOnProgress" autocomplete="off"
-                                            value="On Progress" {{ $digitalCs->status == 'On Progress' ? 'checked' : '' }}>
+                                            value="On Progress" {{ $rcm->status == 'On Progress' ? 'checked' : '' }}>
                                         <label class="btn btn-warning" for="statusOnProgress">On Progress</label>
                                 
                                         <input type="radio" class="btn-check" name="status" id="statusDone" autocomplete="off"
-                                            value="Done" {{ $digitalCs->status == 'Done' ? 'checked' : '' }}>
+                                            value="Done" {{ $rcm->status == 'Done' ? 'checked' : '' }}>
                                         <label class="btn btn-success" for="statusDone">Done</label>
                                     </div>
                                 </div>
                                 
                                 <div class="mb-3" id="dateDoneContainer" style="display: none;">
                                     <label for="date_done" class="form-label">Date Done</label>
-                                    <input type="datetime-local" value="{{ $digitalCs->date_done }}" class="form-control" name="date_done">
+                                    <input type="datetime-local" value="{{ $rcm->date_done }}" class="form-control" name="date_done">
                                 </div>
 
                                   <div class="mb-3">
                                       <label for="exampleInputEmail1" class="form-label">Note</label>
-                                      <input type="text" value="{{ $digitalCs->note }}" class="form-control" name="note">
+                                      <input type="text" value="{{ $rcm->note }}" class="form-control" name="note">
                                   </div>
                                     <!-- ... (form elements lainnya) ... -->
                                     <button type="submit" class="btn btn-primary" id="updateButton">Update</button>

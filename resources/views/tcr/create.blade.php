@@ -65,10 +65,10 @@
         <div class="container-fluid">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title fw-semibold mb-4">Add Digital CS Problem</h5>
+              <h5 class="card-title fw-semibold mb-4">Add TCR Problem</h5>
               <div class="card">
                 <div class="card-body">
-                  <form id="inputDigitalCS" method="post" action="{{ url('/digital-cs/store') }}">
+                  <form id="inputTCR" method="post" action="{{ url('/tcr/store') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="branchCode" class="form-label">Branch Code</label>

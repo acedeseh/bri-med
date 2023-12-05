@@ -68,7 +68,7 @@
           <div class="col-sm-6 col-xl-3">
             <div class="card overflow-hidden rounded-2">
               <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">Digital CS</h6>
+                <h6 class="fw-semibold fs-4">TCR</h6>
                 <div class="d-flex align-items-center justify-content-between">
                   <div>Data Persentasi Kerusakan Bulan Ini</div>
                   <ul class="list-unstyled d-flex align-items-center mb-0">
@@ -77,6 +77,9 @@
                 </div>
               </div>
             </div>
+            <div id="tcrIssuePieChart">
+              <canvas id="tcrPieChart"></canvas>
+          </div>
           </div>     
                     
 
@@ -85,7 +88,7 @@
                   <div class="card-body">
                     <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                       <div class="mb-3 mb-sm-0">
-                        <h5 class="card-title fw-semibold">Digital CS Evaluation Overview</h5>
+                        <h5 class="card-title fw-semibold">TCR Evaluation Overview</h5>
                       </div>
                       <div>
                         <select class="form-select">
@@ -96,7 +99,7 @@
                         </select>
                       </div>
                     </div>
-                    <div id="chart"></div>
+                    <div id=""></div>
                   </div>
                 </div>
             </div>
@@ -117,7 +120,7 @@
                 @endif
                 <h5 class="card-title fw-semibold mb-4">Recent Problem</h5>
                 <div class="container d-flex">              
-                  <a class="btn btn-outline-secondary mx-3 mt-2 d-block mb-0 fs-3 ms-auto" href="{{ route('digital-cs.create') }}" >Add</a>
+                  <a class="btn btn-outline-secondary mx-3 mt-2 d-block mb-0 fs-3 ms-auto" href="{{ route('tcr.create') }}" >Add</a>
                   <a class="btn btn-outline-secondary mx-3 mt-2 d-block mb-0 fs-3 m-auto" href="">Filter By</a>
                   
               </div>
@@ -165,19 +168,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($digitalCSProblem as $digitalCSall)
+                      @foreach($tcrProblem as $tcrall)
                       <tr>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchname }}</td>
-                        <td class="border-bottom-0 fw-bold mb-1">{{ $digitalCSall->problem }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_found)) }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->sla_target)) }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_done)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->branchcode }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->branchname }}</td>
+                        <td class="border-bottom-0 fw-bold mb-1">{{ $tcrall->problem }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->date_found)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->sla_target)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->date_done)) }}</td>
                         
                         <td class="border-bottom-0 fw-semibold">
                           @php
-                              $slaTarget = strtotime($digitalCSall->sla_target);
-                              $dateDone = $digitalCSall->date_done;
+                              $slaTarget = strtotime($tcrall->sla_target);
+                              $dateDone = $tcrall->date_done;
                         
                               if (empty($dateDone)) {
                                   $slaStatus = 'On Progress';
@@ -194,23 +197,23 @@
                           <span class="{{ $slaColor }}">{{ $slaStatus }}</span>
                       </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->issue }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->analysis }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->issue }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->analysis }}</td>
                         
                         <td class="border-bottom-0 fw-semibold mb-1 {{ $bgColor }}">
-                          {{ $digitalCSall->status }}
+                          {{ $tcrall->status }}
                         </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->note }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->note }}</td>
                         <th class="border-bottom-0">
                           <div class="btn-group">
-                            <a  class="btn btn-warning" href="{{route('digital-cs.edit', $digitalCSall->id)}}">Update</a>
-                              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $digitalCSall->id }}">Delete</button>
+                            <a  class="btn btn-warning" href="{{route('tcr.edit', $tcrall->id)}}">Update</a>
+                              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $tcrall->id }}">Delete</button>
                           </div>
                       </th>
                       </tr>
 
-                        <div class="modal fade" id="confirmDeleteModal{{ $digitalCSall->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="confirmDeleteModal{{ $tcrall->id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered" role="document">
                               <div class="modal-content">
                                   <div class="modal-header">
@@ -222,7 +225,7 @@
                                   </div>
                                   <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                      <form method="POST" action="{{ route('digital-cs.destroy', $digitalCSall->id) }}">
+                                      <form method="POST" action="{{ route('tcr.destroy', $tcrall->id) }}">
                                           @csrf
                                           @method('DELETE')
                                           <button type="submit" class="btn btn-danger">Delete</button>
@@ -248,8 +251,43 @@
 
 <script>
   function editAction(id) {
-  window.location.href = "{{ url('/digital-cs/edit') }}/" + id;
+  window.location.href = "{{ url('/tcr/edit') }}/" + id;
 }
+</script>
+
+<script>
+  $(function () {
+      // Fetch data from server
+      $.ajax({
+          url: '{{ route("monthly-chart-data") }}', // Change this URL to the actual endpoint
+          method: 'GET',
+          success: function (data) {
+              // Ambil data presentasi dari server
+              var tcrIssueData = {
+                  series: data,
+                  labels: ["Issue Machine", "Issue SOP", "Issue Human", "Issue Network"],
+              };
+
+              // Konfigurasi pie chart
+              var tcrIssueConfig = {
+                  chart: {
+                      type: 'pie',
+                      height: 350,
+                  },
+                  series: tcrIssueData.series,
+                  labels: tcrIssueData.labels,
+                  colors: ["#5D87FF", "#49BEFF", "#FF6384", "#36A2EB"], // Sesuaikan dengan warna yang Anda inginkan
+              };
+
+              // Buat pie chart di div dengan ID 'tcrPieChart'
+              var tcrPieChart = new ApexCharts(document.querySelector('#tcrPieChart'), tcrIssueConfig);
+              tcrPieChart.render();
+          },
+          error: function (error) {
+              console.error('Error fetching data:', error);
+          }
+      });
+  });
 </script>
 
 

@@ -7,28 +7,29 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use App\Models\digital_cs;
+use App\Models\Qms;
+use Carbon\Carbon;
 
-class DigitalCSController extends Controller
+class QmsController extends Controller
 {
     public function index()
     {
-        $digitalCSProblems = digital_cs::all();
-        return view('digital-cs.index', ['digitalCSProblem' => $digitalCSProblems]);
+        $qmsProblems = Qms::all();
+        return view('qms.index', ['qmsProblem' => $qmsProblems]);
     }
     
     public function create()
     {
-        return view('digital-cs.create');
+        return view('qms.create');
     }
 
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'branchcode' => 'required',
+            'branchcode' => 'required', // Add any other validation rules here
             'branchname' => 'required',
             'problem' => 'required',
-            'date_found' => 'required',
+            'date_found' => 'required|date',
             'sla_target' => 'required',
             'issue' => 'required',
             'analysis' => 'required',
@@ -36,15 +37,15 @@ class DigitalCSController extends Controller
             'note' => 'required',
         ]);
 
-        digital_cs::create($validatedData);
+        Qms::create($validatedData);
 
-    return redirect()->route('digital-cs.index')->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('qms.index')->with('success', 'Data berhasil ditambahkan');
     }
 
     public function edit($id)
     { 
-        $digitalCs = digital_cs::findOrFail($id);
-        return view('digital-cs.edit', compact('digitalCs'));
+        $qms = Qms::findOrFail($id);
+        return view('qms.edit', compact('qms'));
     }
 
     public function update(Request $request, $id)
@@ -57,7 +58,7 @@ class DigitalCSController extends Controller
             'note' => 'required',
         ]);
     
-        $digitalCs = digital_cs::findOrFail($id);
+        $qms = Qms::findOrFail($id);
     
         $updateData = [
             'date_done' => $validatedData['date_done'],
@@ -67,23 +68,23 @@ class DigitalCSController extends Controller
             'note' => $validatedData['note'],
         ];
     
-        $digitalCs->update($updateData);
+        $qms->update($updateData);
     
-        return redirect()->route('digital-cs.index')->with('success', 'Data berhasil diperbarui');
-        }
+        return redirect()->route('qms.index')->with('success', 'Data berhasil diperbarui');
+    }
     
 
     public function destroy($id)
     {
-    $digitalCs = digital_cs::findOrFail($id);
-    $digitalCs->delete();
+        $qms = Qms::findOrFail($id);
+        $qms->delete();
 
-    return redirect()->route('digital-cs.index')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('qms.index')->with('success', 'Data berhasil dihapus');
     }
 
     public function getMonthlyData(Request $request)
     {
-        $monthlyData = DigitalCS::selectRaw('MONTH(date_found) as month, COUNT(*) as count')
+        $monthlyData = Qms::selectRaw('MONTH(date_found) as month, COUNT(*) as count')
             ->groupBy('month')
             ->get();
 
@@ -93,21 +94,21 @@ class DigitalCSController extends Controller
     public function getIssueCountForCurrentMonth()
     {
         $currentMonth = Carbon::now()->month;
-        $issueCount = DigitalCS::whereMonth('date_found', $currentMonth)->count();
+        $issueCount = Qms::whereMonth('date_found', $currentMonth)->count();
 
         return $issueCount;
     }
 
     public function getMonthlyChartData()
-{
-    $issueMachineCount = digital_cs::where('issue', 'Issue Machine')->count();
-    $issueSOPCount = digital_cs::where('issue', 'Issue SOP')->count();
-    $issueHumanCount = digital_cs::where('issue', 'Issue Human')->count();
-    $issueNetworkCount = digital_cs::where('issue', 'Issue Network')->count();
+    {
+        // customize this part based on your model and requirements
+        $issueMachineCount = Qms::where('issue', 'Issue Machine')->count();
+        $issueSOPCount = Qms::where('issue', 'Issue SOP')->count();
+        $issueHumanCount = Qms::where('issue', 'Issue Human')->count();
+        $issueNetworkCount = Qms::where('issue', 'Issue Network')->count();
 
-    $data = [$issueMachineCount, $issueSOPCount, $issueHumanCount, $issueNetworkCount];
+        $data = [$issueMachineCount, $issueSOPCount, $issueHumanCount, $issueNetworkCount];
 
-    return response()->json($data);
-}
-
+        return response()->json($data);
+    }
 }

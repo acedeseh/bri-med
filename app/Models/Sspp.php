@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class digital_cs extends Model
+class Sspp extends Model
 {
     use HasFactory;
-
+    protected $table = 'sspp';
     protected $fillable = [
         'branchcode',
         'branchname',
@@ -21,4 +21,5 @@ class digital_cs extends Model
         'status',
         'note',
     ];
+
 }
