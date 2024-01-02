@@ -119,7 +119,6 @@
                 <div class="container d-flex">              
                   <a class="btn btn-outline-secondary mx-3 mt-2 d-block mb-0 fs-3 ms-auto" href="{{ route('digital-cs.create') }}" >Add</a>
                   <a class="btn btn-outline-secondary mx-3 mt-2 d-block mb-0 fs-3 m-auto" href="">Filter By</a>
-                  
               </div>
 
                 <div class="table-responsive">

@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BRI-MED</title>
   <link rel="stylesheet" href="../template/css/styles.min.css" />
+
 </head>
 
 <body>
@@ -35,19 +36,6 @@
                   <div class="nav-link">{{ Auth::user()->name }}</div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
-                  <div class="message-body">
-                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                      <i class="ti ti-user fs-6"></i>
-                      <p class="mb-0 fs-3">My Profile</p>
-                    </a>
-                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                      <i class="ti ti-mail fs-6"></i>
-                      <p class="mb-0 fs-3">My Account</p>
-                    </a>
-                    <a href="javascript:void(0)" class="d-flex align-items-center gap-2 dropdown-item">
-                      <i class="ti ti-list-check fs-6"></i>
-                      <p class="mb-0 fs-3">My Task</p>
-                    </a>
 
                     <form class="btn btn-outline-secondary mx-3 mt-2 d-block" method="POST" action="{{ route('logout') }}">
                       @csrf
@@ -58,7 +46,6 @@
                           {{ __('Log Out') }}
                       </x-dropdown-link>
                   </form>
-                  </div>
                 </div>
               </li>
             </ul>
@@ -76,18 +63,35 @@
                 <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
                   <div class="mb-3 mb-sm-0">
                     <h5 class="card-title fw-semibold">Machine Evaluation Overview</h5>
-                    <img src="../template/images/logos/bri.logo.png" alt="">
+                    <img src="../template/images/logos/bri-logo.png" alt="">
                   </div>
-                  <div>
-                    <select class="form-select">
-                      <option value="1">March 2023</option>
-                      <option value="2">April 2023</option>
-                      <option value="3">May 2023</option>
-                      <option value="4">June 2023</option>
-                    </select>
+                  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-select" id="year-select">
+                        <?php
+                          $currentYear = date('Y');
+                          $lastYear = $currentYear + 1;
+                          for ($year = $currentYear; $year <= $lastYear; $year++) {
+                            echo "<option value=\"$year\">$year</option>";
+                          }
+                        ?>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <select class="form-select" id="month-select">
+                        <?php
+                          for ($month = 1; $month <= 12; $month++) {
+                            $monthName = date('F', mktime(0, 0, 0, $month, 1));
+                            echo "<option value=\"$month\">$monthName</option>";
+                          }
+                        ?>
+                      </select>
+                    </div>
                   </div>
                 </div>
-                <div id="chart"></div>
+                Chart 
+                <div id="chart" width="400" height="300"></div>
               </div>
             </div>
           </div>
@@ -103,95 +107,25 @@
                     <thead class="text-dark fs-4">
                       <tr>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Id</h6>
+                          <h6 class="fw-semibold mb-0">Kantor Cabang</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Assigned</h6>
+                          <h6 class="fw-semibold mb-0">Mesin</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Name</h6>
+                          <h6 class="fw-semibold mb-0">Analisa</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Priority</h6>
+                          <h6 class="fw-semibold mb-0">Status</h6>
                         </th>
                         <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Budget</h6>
+                          <h6 class="fw-semibold mb-0">Cek Detail</h6>
                         </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
-                            <span class="fw-normal">Web Designer</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Elite Admin</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
-                        </td>
-                      </tr> 
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
-                            <span class="fw-normal">Project Manager</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Real Homes WP Theme</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
-                        </td>
-                      </tr> 
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
-                            <span class="fw-normal">Project Manager</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
-                        </td>
-                      </tr>      
-                      <tr>
-                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
-                            <span class="fw-normal">Frontend Engineer</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <p class="mb-0 fw-normal">Hosting Press HTML</p>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
-                        </td>
-                      </tr>                       
+                    
+                                            
                     </tbody>
                   </table>
                 </div>
@@ -201,22 +135,14 @@
         </div>
 
         <div class="row">
-          <div class="col-sm-6 col-xl-3">
+          <div class="col-sm-6 col-xl-3">  
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
-                <a href="javascript:void(0)"><img src="../template/images/products/s4.jpg" class="card-img-top rounded-0" alt="..."></a>
-                <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <a href="{{ route('digital-cs.index') }}"><img src="../template/images/products/s-digitalcs.png" class="card-img-top rounded-0" alt="..."></a>
+                <a href="javascript:void(0)" ></a>                      </div>
               <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">Boat Headphone</h6>
+                <h6 class="fw-semibold fs-4">Digital CS ( SSB ) </h6>
                 <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="fw-semibold fs-4 mb-0">$50 <span class="ms-2 fw-normal text-muted fs-3"><del>$65</del></span></h6>
-                  <ul class="list-unstyled d-flex align-items-center mb-0">
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -225,19 +151,11 @@
           <div class="col-sm-6 col-xl-3">
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
-                <a href="javascript:void(0)"><img src="../template/images/products/s5.jpg" class="card-img-top rounded-0" alt="..."></a>
-                <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
+                <a href="{{ route('rcm.index') }}"><img src="../template/images/products/s-rcm.png" class="card-img-top rounded-0" alt="..."></a>
+                <a href="javascript:void(0)" ></i></a>                      </div>
               <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">MacBook Air Pro</h6>
+                <h6 class="fw-semibold fs-4">Replacing Card Machine</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="fw-semibold fs-4 mb-0">$650 <span class="ms-2 fw-normal text-muted fs-3"><del>$900</del></span></h6>
-                  <ul class="list-unstyled d-flex align-items-center mb-0">
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -246,19 +164,11 @@
           <div class="col-sm-6 col-xl-3">
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
-                <a href="javascript:void(0)"><img src="../template/images/products/s7.jpg" class="card-img-top rounded-0" alt="..."></a>
-                <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
-              <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">Red Valvet Dress</h6>
+                <a href="{{ route('sspp.index') }}"><img src="../template/images/products/s-sspp.png" class="card-img-top rounded-0" alt="..."></a>
+                <a href="javascript:void(0)" ></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                <h6 class="fw-semibold fs-4">Self Service Passbook Printing</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="fw-semibold fs-4 mb-0">$150 <span class="ms-2 fw-normal text-muted fs-3"><del>$200</del></span></h6>
-                  <ul class="list-unstyled d-flex align-items-center mb-0">
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -267,36 +177,143 @@
           <div class="col-sm-6 col-xl-3">
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
-                <a href="javascript:void(0)"><img src="../template/images/products/s11.jpg" class="card-img-top rounded-0" alt="..."></a>
-                <a href="javascript:void(0)" class="bg-primary rounded-circle p-2 text-white d-inline-flex position-absolute bottom-0 end-0 mb-n3 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Add To Cart"><i class="ti ti-basket fs-4"></i></a>                      </div>
-              <div class="card-body pt-3 p-4">
-                <h6 class="fw-semibold fs-4">Cute Soft Teddybear</h6>
+                <a href="{{ route('tcr.index') }}"><img src="../template/images/products/s-tcr.png" class="card-img-top rounded-0" alt="..."></a>
+                <a href="javascript:void(0)" ></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                <h6 class="fw-semibold fs-4">Teller Cash Recylcer</h6>
                 <div class="d-flex align-items-center justify-content-between">
-                  <h6 class="fw-semibold fs-4 mb-0">$285 <span class="ms-2 fw-normal text-muted fs-3"><del>$345</del></span></h6>
-                  <ul class="list-unstyled d-flex align-items-center mb-0">
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="me-1" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                    <li><a class="" href="javascript:void(0)"><i class="ti ti-star text-warning"></i></a></li>
-                  </ul>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="col-sm-6 col-xl-3">
+            <div class="card overflow-hidden rounded-2">
+              <div class="position-relative">
+                <a href="{{ route('qms.index') }}"><img src="../template/images/products/s-qms.png" class="card-img-top rounded-0" alt="..."></a>
+                <a href="javascript:void(0)" ></a>                      </div>
+                <div class="card-body pt-3 p-4">
+                <h6 class="fw-semibold fs-4">Queue Management System</h6>
+              </div>
+            </div>
+          </div>
+        </div>
 
         </div>
       </div>
     </div>
   </div>
 
-  <script src="../template/libs/jquery/dist/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script src="../template/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="../template/js/sidebarmenu.js"></script>
+  <script src="../template/js/sidebarmenu.js"></script>s
   <script src="../template/js/app.min.js"></script>
-  <script src="../template/libs/apexcharts/dist/apexcharts.min.js"></script>
   <script src="../template/libs/simplebar/dist/simplebar.js"></script>
-  <script src="../template/js/dashboard.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var chartOptions = {
+        series: [
+          { name: "Digital CS:", data: [355, 390, 300, 180, 390] },
+        ],
+        chart: {
+          type: "bar",
+          height: 345,
+          offsetX: -15,
+          toolbar: { show: true },
+          foreColor: "#adb0bb",
+          fontFamily: 'inherit',
+          sparkline: { enabled: false },
+        },
+        colors: ["#5D87FF", "#49BEFF"],
+  
+        plotOptions: {
+          bar: {
+            horizontal: false,
+            columnWidth: "35%",
+            borderRadius: [6],
+            borderRadiusApplication: 'end',
+            borderRadiusWhenStacked: 'all'
+          },
+        },
+        markers: { size: 0 },
+  
+        dataLabels: {
+          enabled: false,
+        },
+  
+        legend: {
+          show: false,
+        },
+  
+        grid: {
+          borderColor: "rgba(0,0,0,0.1)",
+          strokeDashArray: 3,
+          xaxis: {
+            lines: {
+              show: false,
+            },
+          },
+        },
+  
+        xaxis: {
+          type: "category",
+          categories: ["Digital CS", "RCM", "SSPP", "QMS", "TCR"],
+          labels: {
+            style: { cssClass: "grey--text lighten-2--text fill-color" },
+          },
+        },
+  
+        yaxis: {
+          show: true,
+          min: 0,
+          max: 400,
+          tickAmount: 4,
+          labels: {
+            style: {
+              cssClass: "grey--text lighten-2--text fill-color",
+            },
+          },
+        },
+        stroke: {
+          show: true,
+          width: 3,
+          lineCap: "butt",
+          colors: ["transparent"],
+        },
+  
+        tooltip: { theme: "light" },
+  
+        responsive: [
+          {
+            breakpoint: 600,
+            options: {
+              plotOptions: {
+                bar: {
+                  borderRadius: 3,
+                }
+              },
+            }
+          }
+        ]
+      };
+  
+      var chartProfit = new ApexCharts(document.querySelector("#chart"), chartOptions);
+chartProfit.render()
+  .then(() => {
+    console.log("Chart rendered successfully");
+    // Gunakan metode atau properti yang sesuai
+    console.log("Chart series data:", chartProfit.w.globals.series);
+  })
+  .catch(err => console.error("Error rendering chart", err));
+
+})
+ 
+  </script>
+
+
+
 </body>
 
 </html>

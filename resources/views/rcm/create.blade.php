@@ -71,14 +71,16 @@
                   <form id="inputRCM" method="post" action="{{ url('/rcm/store') }}">
                     @csrf
                     <div class="mb-3">
-                        <label for="branchCode" class="form-label">Branch Code</label>
-                        <select class="form-select" id="branchCode" name="branchcode"></select>
-                        <div id="branchCodeError" class="text-danger"></div>
-                    </div>
+                      <label for="branchName" class="form-label">Branch Name</label>
+                      <select class="form-select" id="branchName" name="branchname"></select>
+                    </div>    
+                    
                     <div class="mb-3">
-                        <label for="branchName" class="form-label">Branch Name</label>
-                        <input type="text" class="form-control" id="branchName" name="branchname" readonly>
-                    </div>
+                      <label for="branchCode" class="form-label">Branch Code</label>
+                      <input class="form-control" type="text" id="branchCode" name="branchcode" readonly>
+                      <div id="branchCodeError" class="text-danger"></div>
+                    </div> 
+                    
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Problem</label>
                         <input type="text" class="form-control" name="problem">
@@ -134,71 +136,92 @@
   <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
   <script>
-    function fillBranchName(branchCode) {
-      // Mengambil data branch code dari server
-      fetch(`/getBranchName?branchCode=${branchCode}`)
-        .then(response => response.json())
-        .then(data => {
-          // Mengisi nilai Branch Name ke dalam input
-          document.getElementById('branchName').value = data.branchName || '';
-        })
-        .catch(error => console.error('Error:', error));
-    }
-  
     // Mendapatkan elemen select
     var branchCodeSelect = document.getElementById('branchCode');
-  
-    // Event listener untuk perubahan pada select Branch Code
-    branchCodeSelect.addEventListener('change', function () {
-      // Ambil nilai Branch Code yang dipilih
-      var selectedBranchCode = this.value;
-  
-      // Panggil fungsi untuk mengisi Branch Name berdasarkan Branch Code yang dipilih
-      fillBranchName(selectedBranchCode);
-    });
-  
+    var branchNameSelect = document.getElementById('branchName');
+    
     // Mengisi opsi-opsi pada elemen select dari server saat halaman dimuat
-    fetch('/getBranchCodes')
+    fetch('/getBranchCodesAndNames')
       .then(response => response.json())
       .then(data => {
+        // Simpan data untuk digunakan nanti
+        var branchData = data;
+    
         // Mengisi opsi-opsi pada elemen select
-        data.branchCodes.forEach(branchCode => {
-          var option = document.createElement('option');
-          option.value = branchCode;
-          option.text = branchCode;
-          branchCodeSelect.appendChild(option);
+        branchData.branchCodesAndNames.forEach(branch => {
+          // Option untuk Branch Code
+          var optionCode = document.createElement('option');
+          optionCode.value = branch.branchcode;
+          optionCode.text = branch.branchcode;
+          branchCodeSelect.appendChild(optionCode);
+    
+          // Option untuk Branch Name
+          var optionName = document.createElement('option');
+          optionName.value = branch.branchname;
+          optionName.text = branch.branchname;
+          branchNameSelect.appendChild(optionName);
+        });
+    
+        // Event listener untuk perubahan pada select Branch Code
+        branchCodeSelect.addEventListener('change', function () {
+          // Ambil nilai Branch Code yang dipilih
+          var selectedBranchCode = this.value;
+    
+          // Isi nilai Branch Code ke dalam input
+          document.getElementById('branchCode').value = selectedBranchCode;
+    
+          // Panggil fungsi untuk mengisi Branch Name berdasarkan Branch Code yang dipilih
+          fillBranchName(selectedBranchCode, branchData);
+        });
+    
+        // Event listener untuk perubahan pada select Branch Name
+        branchNameSelect.addEventListener('change', function () {
+          // Ambil nilai Branch Name yang dipilih
+          var selectedBranchName = this.value;
+    
+          // Temukan Branch Code yang sesuai dengan Branch Name
+          var selectedBranch = branchData.branchCodesAndNames.find(branch => branch.branchname === selectedBranchName);
+    
+          // Periksa apakah Branch Code ditemukan
+          if (selectedBranch) {
+            // Isi nilai Branch Code ke dalam input
+            document.getElementById('branchCode').value = selectedBranch.branchcode;
+    
+            // Panggil fungsi untuk mengisi Branch Name berdasarkan Branch Code yang dipilih
+            fillBranchName(selectedBranch.branchcode);
+          }
         });
       })
       .catch(error => console.error('Error:', error));
-
-    // Event listener untuk perubahan pada input Date Found
-document.getElementById('dateFound').addEventListener('change', function () {
-    // Ambil nilai Date Found yang dimasukkan
-    var dateFoundValue = this.value;
-
-    // Periksa apakah nilai Date Found valid
-    if (dateFoundValue) {
-        // Ubah format Date Found ke format MySQL
-        var formattedDateFound = moment(dateFoundValue, 'YYYY-MM-DDTHH:mm').format('YYYY-MM-DD HH:mm:ss');
-
-        // Isi nilai Date Found yang telah diubah ke dalam input
-        this.value = formattedDateFound;
-        
-        // Hitung SLA Target (180 menit setelah Date Found)
-        var dateFound = moment(dateFoundValue, 'YYYY-MM-DDTHH:mm');
-        var slaTarget = dateFound.add(180, 'minutes');
-
-        // Format waktu SLA Target menggunakan moment.js
-        var formattedSlaTarget = slaTarget.format('YYYY/MM/DD HH:mm:ss');
-
-        // Isi nilai SLA Target ke dalam input
-        document.getElementById('slaTarget').value = formattedSlaTarget;
-    } else {
-        // Jika Date Found kosong, atur SLA Target kembali menjadi kosong
-        document.getElementById('slaTarget').value = '';
-    }
-});
-  </script>
+    
+        // Event listener untuk perubahan pada input Date Found
+    document.getElementById('dateFound').addEventListener('change', function () {
+        // Ambil nilai Date Found yang dimasukkan
+        var dateFoundValue = this.value;
+    
+        // Periksa apakah nilai Date Found valid
+        if (dateFoundValue) {
+            // Ubah format Date Found ke format MySQL
+            var formattedDateFound = moment(dateFoundValue, 'YYYY-MM-DDTHH:mm').format('YYYY-MM-DD HH:mm:ss');
+    
+            // Isi nilai Date Found yang telah diubah ke dalam input
+            this.value = formattedDateFound;
+            
+            // Hitung SLA Target (180 menit setelah Date Found)
+            var dateFound = moment(dateFoundValue, 'YYYY-MM-DDTHH:mm');
+            var slaTarget = dateFound.add(180, 'minutes');
+    
+            // Format waktu SLA Target menggunakan moment.js
+            var formattedSlaTarget = slaTarget.format('YYYY/MM/DD HH:mm:ss');
+    
+            // Isi nilai SLA Target ke dalam input
+            document.getElementById('slaTarget').value = formattedSlaTarget;
+        } else {
+            // Jika Date Found kosong, atur SLA Target kembali menjadi kosong
+            document.getElementById('slaTarget').value = '';
+        }
+    });
+      </script>
 
 </body>
 

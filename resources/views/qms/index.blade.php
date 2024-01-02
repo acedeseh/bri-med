@@ -255,41 +255,6 @@
 }
 </script>
 
-<script>
-  $(function () {
-      // Fetch data from server
-      $.ajax({
-          url: '{{ route("monthly-chart-data") }}', // Change this URL to the actual endpoint
-          method: 'GET',
-          success: function (data) {
-              // Ambil data presentasi dari server
-              var qmsIssueData = {
-                  series: data,
-                  labels: ["Issue Machine", "Issue SOP", "Issue Human", "Issue Network"],
-              };
-
-              // Konfigurasi pie chart
-              var qmsIssueConfig = {
-                  chart: {
-                      type: 'pie',
-                      height: 350,
-                  },
-                  series: qmsIssueData.series,
-                  labels: qmsIssueData.labels,
-                  colors: ["#5D87FF", "#49BEFF", "#FF6384", "#36A2EB"], // Sesuaikan dengan warna yang Anda inginkan
-              };
-
-              // Buat pie chart di div dengan ID 'qmsPieChart'
-              var qmsPieChart = new ApexCharts(document.querySelector('#qmsPieChart'), qmsIssueConfig);
-              qmsPieChart.render();
-          },
-          error: function (error) {
-              console.error('Error fetching data:', error);
-          }
-      });
-  });
-</script>
-
 
 <!-- Include Chart.js from CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

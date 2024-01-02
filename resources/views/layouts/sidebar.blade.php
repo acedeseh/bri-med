@@ -55,6 +55,14 @@
                   </a>
               </li>
               <li class="sidebar-item">
+                <a class="sidebar-link" href="{{ route('hyosung.index') }}" aria-expanded="false">
+                    <span>
+                        <i class="ti ti-device-analytics"></i>
+                    </span>
+                    <span class="hide-menu">RCM-Hyosung</span>
+                </a>
+            </li>
+              <li class="sidebar-item">
                   <a class="sidebar-link" href="{{ route('tcr.index') }}" aria-expanded="false">
                       <span>
                           <i class="ti ti-device-analytics"></i>

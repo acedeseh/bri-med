@@ -38,4 +38,15 @@ public function getBranchCodes()
 
         return response()->json($response);
     }
+
+public function getBranchCodesAndNames()
+{
+    // Gantilah dengan model, tabel, dan kolom sesuai dengan struktur database Anda
+    $branches = DB::table('branchdesc')->select('branchcode', 'branchname')->get();
+    
+    $response = ['branchCodesAndNames' => $branches];
+    
+    return response()->json($response);
+}
+
 }

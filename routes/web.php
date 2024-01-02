@@ -1,16 +1,14 @@
 <?php
 
-
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DigitalCSController;
 use App\Http\Controllers\QmsController;
 use App\Http\Controllers\RcmController;
 use App\Http\Controllers\SsppController;
 use App\Http\Controllers\TcrController;
+use App\Http\Controllers\HyosungController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BranchController;
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,16 +34,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('/getBranchName', [BranchController::class, 'getBranchName']);
 Route::get('/getBranchCodes', [BranchController::class, 'getBranchCodes']);
-Route::get('/monthly-data', 'DigitalCSController@getMonthlyData')->name('monthly-data');
-Route::get('/issue-count', [DigitalCSController::class, 'getIssueCount'])->name('issue-count');
-Route::get('/monthly-chart-data', [DigitalCSController::class, 'monthlyChartData'])->name('monthly-chart-data');
-
-
-
-
+Route::get('/getBranchCodesAndNames', [BranchController::class, 'getBranchCodesAndNames']);
 
 Route::prefix('/digital-cs')->group(function () {
     Route::get('/', [DigitalCSController::class, 'index'])->name('digital-cs.index');
@@ -83,6 +74,15 @@ Route::prefix('/rcm')->group(function () {
     Route::delete('/destroy/{id}', [RcmController::class, 'destroy'])->name('rcm.destroy');
 });
 
+Route::prefix('/hyosung')->group(function () {
+    Route::get('/', [HyosungController::class, 'index'])->name('hyosung.index');
+    Route::get('/create', [HyosungController::class, 'create'])->name('hyosung.create');
+    Route::post('/store', [HyosungController::class, 'store'])->name('hyosung.store');
+    Route::get('/edit/{id}', [HyosungController::class, 'edit'])->name('hyosung.edit');
+    Route::patch('/update/{id}', [HyosungController::class, 'update'])->name('hyosung.update');
+    Route::delete('/destroy/{id}', [HyosungController::class, 'destroy'])->name('hyosung.destroy');
+});
+
 Route::prefix('/sspp')->group(function () {
     Route::get('/', [SsppController::class, 'index'])->name('sspp.index');
     Route::get('/create', [SsppController::class, 'create'])->name('sspp.create');
@@ -91,10 +91,5 @@ Route::prefix('/sspp')->group(function () {
     Route::patch('/update/{id}', [SsppController::class, 'update'])->name('sspp.update');
     Route::delete('/destroy/{id}', [SsppController::class, 'destroy'])->name('sspp.destroy');
 });
-
-
-
-
-
 
 require __DIR__.'/auth.php';
