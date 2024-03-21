@@ -8,6 +8,11 @@
   <title>BRI-MED</title>
   <link rel="stylesheet" href="../template/css/styles.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .long-text {
+      white-space: pre-line;
+    }
+  </style>
 </head>
 
 <body>
@@ -98,9 +103,7 @@
                           <option value="4">June 2023</option>
                         </select>
                       </div>
-                    </div>
-                    <div id=""></div>
-                  </div>
+                 </div>
                 </div>
             </div>
         </div>
@@ -171,8 +174,8 @@
                       @foreach($ssppProblem as $ssppall)
                       <tr>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $ssppall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $ssppall->branchname }}</td>
-                        <td class="border-bottom-0 fw-bold mb-1">{{ $ssppall->problem }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $ssppall->branchname }}</td>
+                        <td class="border-bottom-0 fw-bold mb-1 long-text">{{ $ssppall->problem }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($ssppall->date_found)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($ssppall->sla_target)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($ssppall->date_done)) }}</td>
@@ -197,14 +200,14 @@
                           <span class="{{ $slaColor }}">{{ $slaStatus }}</span>
                       </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $ssppall->issue }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $ssppall->analysis }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $ssppall->issue }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $ssppall->analysis }}</td>
                         
                         <td class="border-bottom-0 fw-semibold mb-1 {{ $bgColor }}">
                           {{ $ssppall->status }}
                         </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $ssppall->note }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $ssppall->note }}</td>
                         <th class="border-bottom-0">
                           <div class="btn-group">
                             <a  class="btn btn-warning" href="{{route('sspp.edit', $ssppall->id)}}">Update</a>

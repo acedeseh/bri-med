@@ -8,6 +8,11 @@
   <title>BRI-MED</title>
   <link rel="stylesheet" href="../template/css/styles.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .long-text {
+      white-space: pre-line;
+    }
+  </style>
 </head>
 
 <body>
@@ -48,7 +53,7 @@
                       @csrf
 
                       <x-dropdown-link :href="route('logout')"
-                              onclick="event.preventDefault();
+                              onclick="event.preventDefault(); 
                                           this.closest('form').submit();">
                           {{ __('Log Out') }}
                       </x-dropdown-link>
@@ -166,14 +171,14 @@
                     <tbody>
                       @foreach($digitalCSProblem as $digitalCSall)
                       <tr>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->branchname }}</td>
-                        <td class="border-bottom-0 fw-bold mb-1">{{ $digitalCSall->problem }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_found)) }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->sla_target)) }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_done)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $digitalCSall->branchcode }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $digitalCSall->branchname }}</td>
+                        <td class="border-bottom-0 fw-bold mb-1 long-text">{{ $digitalCSall->problem }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_found)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ date('d/m/Y H:i', strtotime($digitalCSall->sla_target)) }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ date('d/m/Y H:i', strtotime($digitalCSall->date_done)) }}</td>
                         
-                        <td class="border-bottom-0 fw-semibold">
+                        <td class="border-bottom-0 fw-semibold long-text">
                           @php
                               $slaTarget = strtotime($digitalCSall->sla_target);
                               $dateDone = $digitalCSall->date_done;
@@ -193,14 +198,14 @@
                           <span class="{{ $slaColor }}">{{ $slaStatus }}</span>
                       </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->issue }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->analysis }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $digitalCSall->issue }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $digitalCSall->analysis }}</td>
                         
-                        <td class="border-bottom-0 fw-semibold mb-1 {{ $bgColor }}">
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text{{ $bgColor }}">
                           {{ $digitalCSall->status }}
                         </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $digitalCSall->note }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $digitalCSall->note }}</td>
                         <th class="border-bottom-0">
                           <div class="btn-group">
                             <a  class="btn btn-warning" href="{{route('digital-cs.edit', $digitalCSall->id)}}">Update</a>

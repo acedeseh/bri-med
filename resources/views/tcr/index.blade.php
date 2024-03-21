@@ -8,6 +8,11 @@
   <title>BRI-MED</title>
   <link rel="stylesheet" href="../template/css/styles.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .long-text {
+      white-space: pre-line;
+    }
+  </style>
 </head>
 
 <body>
@@ -171,8 +176,8 @@
                       @foreach($tcrProblem as $tcrall)
                       <tr>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->branchname }}</td>
-                        <td class="border-bottom-0 fw-bold mb-1">{{ $tcrall->problem }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $tcrall->branchname }}</td>
+                        <td class="border-bottom-0 fw-bold mb-1 long-text">{{ $tcrall->problem }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->date_found)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->sla_target)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($tcrall->date_done)) }}</td>
@@ -197,14 +202,14 @@
                           <span class="{{ $slaColor }}">{{ $slaStatus }}</span>
                       </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->issue }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->analysis }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $tcrall->issue }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $tcrall->analysis }}</td>
                         
                         <td class="border-bottom-0 fw-semibold mb-1 {{ $bgColor }}">
                           {{ $tcrall->status }}
                         </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $tcrall->note }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $tcrall->note }}</td>
                         <th class="border-bottom-0">
                           <div class="btn-group">
                             <a  class="btn btn-warning" href="{{route('tcr.edit', $tcrall->id)}}">Update</a>

@@ -8,6 +8,11 @@
   <title>BRI-MED</title>
   <link rel="stylesheet" href="../template/css/styles.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .long-text {
+      white-space: pre-line;
+    }
+  </style>
 </head>
 
 <body>
@@ -63,7 +68,6 @@
       <!--  Header End -->
       
       <div class="container-fluid">
-
         <div class="row">
           <div class="col-sm-6 col-xl-3">
             <div class="card overflow-hidden rounded-2">
@@ -171,8 +175,8 @@
                       @foreach($rcmProblem as $rcmall)
                       <tr>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ $rcmall->branchcode }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $rcmall->branchname }}</td>
-                        <td class="border-bottom-0 fw-bold mb-1">{{ $rcmall->problem }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $rcmall->branchname }}</td>
+                        <td class="border-bottom-0 fw-bold mb-1 long-text">{{ $rcmall->problem }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($rcmall->date_found)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($rcmall->sla_target)) }}</td>
                         <td class="border-bottom-0 fw-semibold mb-1">{{ date('d/m/Y H:i', strtotime($rcmall->date_done)) }}</td>
@@ -197,14 +201,14 @@
                           <span class="{{ $slaColor }}">{{ $slaStatus }}</span>
                       </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $rcmall->issue }}</td>
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $rcmall->analysis }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $rcmall->issue }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $rcmall->analysis }}</td>
                         
                         <td class="border-bottom-0 fw-semibold mb-1 {{ $bgColor }}">
                           {{ $rcmall->status }}
                         </td>
 
-                        <td class="border-bottom-0 fw-semibold mb-1">{{ $rcmall->note }}</td>
+                        <td class="border-bottom-0 fw-semibold mb-1 long-text">{{ $rcmall->note }}</td>
                         <th class="border-bottom-0">
                           <div class="btn-group">
                             <a  class="btn btn-warning" href="{{route('rcm.edit', $rcmall->id)}}">Update</a>
